@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Dialy Stoic</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">From the Square world,\nHello, %1$s!</string>
+    <string name="sliding_card_animation">expanding_card_animation</string>
+    <string name="shimmer_effect_trasition_animation">shimmer_effect_trasition_animation</string>
+    <string name="shimmer_effect_alpha_animation">shimmer_effect_alpha_animation</string>
+    <string name="loading">Loading…</string>
+    <string name="wait">Wait</string>
+</resources>
