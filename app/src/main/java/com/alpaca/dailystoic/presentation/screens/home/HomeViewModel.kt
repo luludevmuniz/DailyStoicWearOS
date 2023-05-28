@@ -14,6 +14,7 @@ import com.alpaca.dailystoic.domain.use_cases.UseCases
 import com.alpaca.dailystoic.util.Constants.ACTION_QUOTE_UPDATED
 import com.alpaca.dailystoic.util.RequestState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -30,7 +31,6 @@ class HomeViewModel @Inject constructor(
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            Log.d("LENINJA", "onReceive HomeViewModel")
             fetchDailyQuote()
         }
     }
@@ -46,15 +46,19 @@ class HomeViewModel @Inject constructor(
     private fun fetchDailyQuote() {
         viewModelScope.launch {
             try {
+                Log.d("ninja", "fetchDailyQuote")
                 useCases.getDailyQuoteUseCase().collect { dailyQuote ->
-                    Log.d("LENINJA", "fetchDailyQuote quote = $dailyQuote")
-                    Log.d("LENINJA", "fetchDailyQuote _dailyQuote = $_dailyQuote")
                     dailyQuote?.let { _dailyQuote.value = RequestState.Success(it) }
                 }
             } catch (e: Exception) {
-                Log.d("LENINJA", "fetchDailyQuote error = $e")
                 _dailyQuote.value = (RequestState.Error(e))
             }
+        }
+    }
+
+    fun updateFavoriteStatus(quote: Quote) {
+        viewModelScope.launch(Dispatchers.IO) {
+            useCases.updateFavoriteStatusUseCase(quote = quote.copy(favorite = !quote.favorite))
         }
     }
 

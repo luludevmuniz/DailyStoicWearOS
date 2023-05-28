@@ -11,5 +11,5 @@ data class Quote(
     val id: Int = 0,
     val author: String = "",
     val quote: String = "",
-    val favorite: Boolean = false
+    var favorite: Boolean = false
 )

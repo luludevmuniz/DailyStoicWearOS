@@ -2,7 +2,6 @@ package com.alpaca.dailystoic.data.workers
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -23,7 +22,6 @@ class GetDailyQuoteWorker @AssistedInject constructor(
         var result: Result
         runBlocking {
             result = try {
-                Log.d("LENINJA", "doWork início")
                 val randomQuote = useCases.getRandomQuoteUseCase()
                 if (randomQuote.quote.isNotEmpty() && randomQuote.author.isNotEmpty()) {
                     useCases.saveDailyQuoteUseCase(quote = randomQuote)

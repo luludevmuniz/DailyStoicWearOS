@@ -7,10 +7,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -22,6 +19,7 @@ import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TitleCard
 import androidx.wear.compose.material.ToggleButtonDefaults
 import com.alpaca.dailystoic.R
+import com.alpaca.dailystoic.domain.model.Quote
 import com.alpaca.dailystoic.presentation.components.TestTags.CIRCULAR_PROGRESS_INDICATOR
 import com.alpaca.dailystoic.presentation.components.TestTags.FAVORITE_ICON
 import com.alpaca.dailystoic.presentation.components.TestTags.QUOTE_TEXT
@@ -30,54 +28,49 @@ import com.alpaca.dailystoic.ui.theme.StoicLightGray
 import com.alpaca.dailystoic.ui.theme.StoicRed
 
 @Composable
-fun QuoteCard(autor: String, citacao: String) {
-    var isFavorite by remember { mutableStateOf(false) }
+fun QuoteCard(
+    quote: Quote, onClickFavoriteQuote: (Quote) -> Unit = {}
+) {
     val favoriteIconColor = remember { Animatable(initialValue = StoicLightGray) }
-    LaunchedEffect(isFavorite) {
+    val isFavorite = quote.favorite
+
+    LaunchedEffect(quote) {
         favoriteIconColor.animateTo(targetValue = if (isFavorite) StoicRed else StoicLightGray)
     }
-    TitleCard(
-        onClick = { isFavorite = !isFavorite },
-        title = { Text(text = autor) },
-        time = {
-            if (citacao == "Loading…") {
-                CircularProgressIndicator(
-                    modifier = Modifier.testTag(CIRCULAR_PROGRESS_INDICATOR)
-                )
-            } else {
-                FavoriteIcon(
-                    modifier = Modifier
-                        .size(ToggleButtonDefaults.SmallIconSize)
-                        .testTag(FAVORITE_ICON),
-                    isFavorite = isFavorite,
-                    favoriteIconColor = favoriteIconColor.value
-                )
-            }
+
+    TitleCard(onClick = {
+        onClickFavoriteQuote(quote)
+    }, title = { Text(text = quote.author) }, time = {
+        if (quote.quote == "Loading…") {
+            CircularProgressIndicator(
+                modifier = Modifier.testTag(CIRCULAR_PROGRESS_INDICATOR)
+            )
+        } else {
+            FavoriteIcon(
+                modifier = Modifier
+                    .size(ToggleButtonDefaults.SmallIconSize)
+                    .testTag(FAVORITE_ICON),
+                isFavorite = quote.favorite,
+                favoriteIconColor = favoriteIconColor.value
+            )
         }
-    ) {
+    }) {
         Text(
-            modifier = Modifier.testTag(QUOTE_TEXT),
-            text = citacao
+            modifier = Modifier.testTag(QUOTE_TEXT), text = quote.quote
         )
     }
-
 }
 
 @Composable
 fun FavoriteIcon(
-    modifier: Modifier,
-    isFavorite: Boolean,
-    favoriteIconColor: Color
+    modifier: Modifier, isFavorite: Boolean, favoriteIconColor: Color
 ) {
     Icon(
-        modifier = modifier,
-        tint = favoriteIconColor,
-        imageVector = if (isFavorite) {
+        modifier = modifier, tint = favoriteIconColor, imageVector = if (isFavorite) {
             Icons.Filled.Favorite
         } else {
             Icons.Default.FavoriteBorder
-        },
-        contentDescription = stringResource(R.string.favorite_icon)
+        }, contentDescription = stringResource(R.string.favorite_icon)
     )
 }
 
@@ -85,6 +78,6 @@ fun FavoriteIcon(
 @Composable
 fun QuoteCardPreview() {
     DialyStoicTheme {
-        QuoteCard("Autor", "Citacao")
+        QuoteCard(Quote(author = "Autor", quote = "Citacao"))
     }
 }
