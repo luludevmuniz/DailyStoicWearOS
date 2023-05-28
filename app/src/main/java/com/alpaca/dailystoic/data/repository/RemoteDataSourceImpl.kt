@@ -1,16 +1,14 @@
 package com.alpaca.dailystoic.data.repository
 
-import com.alpaca.dailystoic.data.remote.StoicismQuoteApi
+import com.alpaca.dailystoic.data.remote.StoicApi
 import com.alpaca.dailystoic.domain.model.Quote
 import com.alpaca.dailystoic.domain.repository.RemoteDataSource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 
 class RemoteDataSourceImpl(
-    private val stoicApi: StoicismQuoteApi
+    private val stoicApi: StoicApi
 ) : RemoteDataSource {
 
-    override suspend fun getRandomQuote(): Flow<Quote> {
-        return flowOf(stoicApi.getRandomQuote())
+    override suspend fun getRandomQuote(): Quote {
+        return stoicApi.getRandomQuote()
     }
 }

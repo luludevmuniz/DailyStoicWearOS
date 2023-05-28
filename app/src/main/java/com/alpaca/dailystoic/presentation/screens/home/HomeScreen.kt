@@ -1,5 +1,6 @@
 package com.alpaca.dailystoic.presentation.screens.home
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
@@ -37,7 +38,8 @@ import com.alpaca.dailystoic.util.RequestState
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
-    val citacao by homeViewModel.randomQuote.collectAsState()
+    val quote by homeViewModel.dailyQuote.collectAsState()
+    Log.d("LENINJA", "HomeScreen quote = $quote")
 
     val scalingLazyListState =
         rememberScalingLazyListState(
@@ -69,7 +71,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
 
                 item {
                     AnimatedContent(
-                        targetState = citacao,
+                        targetState = quote,
                         label = stringResource(R.string.sliding_card_animation),
                         transitionSpec = {
                             if (targetState.compareTo(initialState) == 1) {
@@ -84,8 +86,9 @@ fun HomeScreen(homeViewModel: HomeViewModel = hiltViewModel()) {
                         }
                     )
                     {
-                        when(val requestedQuote = citacao) {
+                        when(val requestedQuote = quote) {
                             is RequestState.Success -> {
+                                Log.d("LENINJA", "HomeScreen RequestState.Success $requestedQuote")
                                 QuoteCard(
                                     autor = requestedQuote.data.author,
                                     citacao = requestedQuote.data.quote

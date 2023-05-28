@@ -1,6 +1,6 @@
 package com.alpaca.dailystoic.di
 
-import com.alpaca.dailystoic.data.remote.StoicismQuoteApi
+import com.alpaca.dailystoic.data.remote.StoicApi
 import com.alpaca.dailystoic.data.repository.RemoteDataSourceImpl
 import com.alpaca.dailystoic.domain.repository.RemoteDataSource
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -8,7 +8,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.JavaNetCookieJar
 import okhttp3.MediaType.Companion.toMediaType
@@ -36,7 +35,6 @@ object NetworkModule {
             .cookieJar(JavaNetCookieJar(cookieManager))
             .build()
 
-    @OptIn(ExperimentalSerializationApi::class)
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
@@ -50,17 +48,16 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideStoicApi(retrofit: Retrofit): StoicismQuoteApi =
-        retrofit.create(StoicismQuoteApi::class.java)
+    fun provideStoicApi(retrofit: Retrofit): StoicApi =
+        retrofit.create(StoicApi::class.java)
 
     @Provides
     @Singleton
     fun provideRemoteDataSource(
-        stoicApi: StoicismQuoteApi,
+        stoicApi: StoicApi,
     ): RemoteDataSource {
         return RemoteDataSourceImpl(
             stoicApi = stoicApi,
         )
     }
-
 }
