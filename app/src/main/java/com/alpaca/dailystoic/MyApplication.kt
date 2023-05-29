@@ -35,9 +35,11 @@ class MyApplication : Application(), Configuration.Provider {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val periodicRequest = PeriodicWorkRequestBuilder<GetDailyQuoteWorker>(1, TimeUnit.DAYS)
+        val periodicRequest = PeriodicWorkRequestBuilder<GetDailyQuoteWorker>(30, TimeUnit.MINUTES,
+            15, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .build()
+
 
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
             "DialyStoicQuoteWorker",

@@ -117,6 +117,8 @@ dependencies {
     implementation 'androidx.hilt:hilt-work:1.0.0'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
+    //Horologist - Compose Layout
+    implementation 'com.google.android.horologist:horologist-compose-layout:0.4.8'
 }
 
 kapt {
