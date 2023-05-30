@@ -10,14 +10,15 @@ import com.alpaca.dailystoic.domain.repository.LocalDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class LocalDataSourceImpl @Inject constructor(private val stoicDatabase: StoicDatabase): LocalDataSource {
+class LocalDataSourceImpl @Inject constructor(private val stoicDatabase: StoicDatabase) :
+    LocalDataSource {
     private val quoteDao = stoicDatabase.quoteDao()
 
     override fun getDailyQuote(): Flow<Quote> = quoteDao.getDailyQuote()
 
     override fun getFavoriteQuotes(): Flow<PagingData<Quote>> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = 10),
             pagingSourceFactory = { QuotePagingSource(stoicDatabase) }
         ).flow
     }
@@ -27,7 +28,6 @@ class LocalDataSourceImpl @Inject constructor(private val stoicDatabase: StoicDa
         quoteDao.saveDailyQuote(quote = quote)
     }
 
-    override suspend fun updateFavoriteStatus(quote: Quote) {
-        quoteDao.updateFavoriteStatus(quote = quote)
-    }
+    override suspend fun updateQuote(quote: Quote) =
+        quoteDao.updateQuote(quote = quote)
 }

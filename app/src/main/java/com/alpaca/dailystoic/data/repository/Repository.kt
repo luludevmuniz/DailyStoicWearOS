@@ -18,6 +18,5 @@ class Repository @Inject constructor(
     fun getFavoriteQuotes(): Flow<PagingData<Quote>> = local.getFavoriteQuotes()
 
     suspend fun saveDailyQuote(quote: Quote) = local.saveDailyQuote(quote = quote)
-    suspend fun updateFavoriteStatus(quote: Quote) = local.updateFavoriteStatus(quote = quote)
-
+    suspend fun updateQuote(quote: Quote) = local.updateQuote(quote = quote)
 }

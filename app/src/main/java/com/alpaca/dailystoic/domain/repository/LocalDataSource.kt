@@ -9,5 +9,5 @@ interface LocalDataSource {
     fun getFavoriteQuotes(): Flow<PagingData<Quote>>
     suspend fun saveDailyQuote(quote: Quote)
 
-    suspend fun updateFavoriteStatus(quote: Quote)
+    suspend fun updateQuote(quote: Quote)
 }

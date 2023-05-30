@@ -6,7 +6,7 @@ import com.alpaca.dailystoic.domain.use_cases.get_daily_quote.GetDailyQuoteUseCa
 import com.alpaca.dailystoic.domain.use_cases.get_favorite_quotes.GetFavoriteQuotesUseCase
 import com.alpaca.dailystoic.domain.use_cases.get_random_quote.GetRandomQuoteUseCase
 import com.alpaca.dailystoic.domain.use_cases.save_daily_quote.SaveDailyQuoteUseCase
-import com.alpaca.dailystoic.domain.use_cases.update_favorite_status.UpdateFavoriteStatusUseCase
+import com.alpaca.dailystoic.domain.use_cases.update_quote.UpdateQuoteUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,8 +24,8 @@ object RepositoryModule {
             getRandomQuoteUseCase = GetRandomQuoteUseCase(repository = repository),
             getDailyQuoteUseCase = GetDailyQuoteUseCase(repository = repository),
             getFavoriteQuotesUseCase = GetFavoriteQuotesUseCase(repository = repository),
-            updateFavoriteStatusUseCase = UpdateFavoriteStatusUseCase(repository = repository),
-            saveDailyQuoteUseCase = SaveDailyQuoteUseCase(repository = repository)
+            updateQuoteUseCase = UpdateQuoteUseCase(repository = repository),
+            saveDailyQuoteUseCase = SaveDailyQuoteUseCase(repository = repository),
         )
     }
 }

@@ -7,8 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.alpaca.dailystoic.domain.model.Quote
 import com.alpaca.dailystoic.domain.use_cases.UseCases
 import com.alpaca.dailystoic.util.Constants.ACTION_QUOTE_UPDATED
@@ -24,10 +25,15 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val useCases: UseCases, private val application: Application
-) : AndroidViewModel(application = application) {
+) : ViewModel() {
 
     private val _dailyQuote = MutableStateFlow<RequestState<Quote>>(value = RequestState.Loading)
     val dailyQuote: StateFlow<RequestState<Quote>> = _dailyQuote
+
+    private val _favoriteQuotes = MutableStateFlow<PagingData<Quote>>(value = PagingData.empty())
+    val favoriteQuotes: StateFlow<PagingData<Quote>> = _favoriteQuotes
+
+//    val favoriteQuotes = useCases.getFavoriteQuotesUseCase()
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -56,9 +62,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun fetchFavoriteQuotes() {
+        viewModelScope.launch {
+            useCases.getFavoriteQuotesUseCase().collect { favoriteQuotes ->
+                _favoriteQuotes.value = favoriteQuotes
+            }
+        }
+    }
+
     fun updateFavoriteStatus(quote: Quote) {
         viewModelScope.launch(Dispatchers.IO) {
-            useCases.updateFavoriteStatusUseCase(quote = quote.copy(favorite = !quote.favorite))
+            useCases.updateQuoteUseCase(quote = quote.copy(favorite = !quote.favorite))
         }
     }
 

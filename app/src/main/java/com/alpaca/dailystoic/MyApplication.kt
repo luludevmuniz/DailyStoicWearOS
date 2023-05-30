@@ -2,6 +2,7 @@ package com.alpaca.dailystoic
 
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.BackoffPolicy
 import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -35,11 +36,14 @@ class MyApplication : Application(), Configuration.Provider {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val periodicRequest = PeriodicWorkRequestBuilder<GetDailyQuoteWorker>(30, TimeUnit.MINUTES,
-            15, TimeUnit.MINUTES)
+        val periodicRequest = PeriodicWorkRequestBuilder<GetDailyQuoteWorker>(1, TimeUnit.DAYS)
+            .setBackoffCriteria(
+                backoffPolicy = BackoffPolicy.LINEAR,
+                backoffDelay = 15,
+                timeUnit = TimeUnit.SECONDS
+            )
             .setConstraints(constraints)
             .build()
-
 
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
             "DialyStoicQuoteWorker",
@@ -47,5 +51,4 @@ class MyApplication : Application(), Configuration.Provider {
             periodicRequest
         )
     }
-
 }

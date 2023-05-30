@@ -1,13 +1,13 @@
-package com.alpaca.dailystoic.domain.use_cases.update_favorite_status
+package com.alpaca.dailystoic.domain.use_cases.update_quote
 
 import com.alpaca.dailystoic.data.repository.Repository
 import com.alpaca.dailystoic.domain.model.Quote
 
-class UpdateFavoriteStatusUseCase(
+class UpdateQuoteUseCase(
     private val repository: Repository
 ) {
 
     suspend operator fun invoke(quote: Quote) {
-        repository.updateFavoriteStatus(quote = quote)
+        repository.updateQuote(quote = quote)
     }
 }

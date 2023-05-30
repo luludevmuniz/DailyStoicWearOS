@@ -22,7 +22,6 @@ class NotificationHelper(private val context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel()
         }
-
         val notificationBuilder = buildNotification(dailyQuote)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !hasNotificationPermissions()) {
             // TODO: Request notification permissions
@@ -40,22 +39,18 @@ class NotificationHelper(private val context: Context) {
         val channel = NotificationChannel(channelId, name, importance).apply {
             description = descriptionText
         }
-
         notificationManager.createNotificationChannel(channel)
     }
 
     private fun buildNotification(randomQuote: Quote): Notification {
-        val contentTitle = randomQuote.author
-        val contentText = randomQuote.author
-        val bigTextStyle = Notification.BigTextStyle().bigText(randomQuote.quote)
-        val builder =
-            Notification.Builder(context).setContentTitle(contentTitle).setContentText(contentText)
-                .setStyle(bigTextStyle)
+        val builder = Notification.Builder(context)
+            .setContentTitle(randomQuote.author)
+            .setContentText(randomQuote.quote)
+            .setSmallIcon(R.mipmap.ic_launcher)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId("Daily Stoic Quotes")
         }
-
         return builder.build()
     }
 

@@ -1,5 +1,6 @@
 package com.alpaca.dailystoic.presentation.components
 
+import android.util.Log
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -30,20 +31,19 @@ import com.alpaca.dailystoic.ui.theme.StoicRed
 
 @Composable
 fun QuoteCard(
-    maxLines: Int = 20,
     quote: Quote,
     onClick: (Quote) -> Unit = {}
 ) {
     val favoriteIconColor = remember { Animatable(initialValue = StoicLightGray) }
-    val isFavorite = quote.favorite
 
-    LaunchedEffect(quote) {
-        favoriteIconColor.animateTo(targetValue = if (isFavorite) StoicRed else StoicLightGray)
+    LaunchedEffect(quote.favorite) {
+        favoriteIconColor.animateTo(targetValue = if (quote.favorite) StoicRed else StoicLightGray)
     }
 
     TitleCard(
         onClick = {
             onClick(quote)
+            Log.d("longpress", "click")
         },
         title = {
             Text(
@@ -65,25 +65,28 @@ fun QuoteCard(
                 )
             }
         }) {
-        Text(
-            modifier = Modifier.testTag(QUOTE_TEXT),
-            text = quote.quote,
-            maxLines = maxLines,
-            overflow = TextOverflow.Ellipsis
-        )
+            Text(
+                modifier = Modifier.testTag(QUOTE_TEXT),
+                text = quote.quote,
+                overflow = TextOverflow.Ellipsis
+            )
     }
 }
+
 
 @Composable
 fun FavoriteIcon(
     modifier: Modifier, isFavorite: Boolean, favoriteIconColor: Color
 ) {
     Icon(
-        modifier = modifier, tint = favoriteIconColor, imageVector = if (isFavorite) {
+        modifier = modifier,
+        tint = favoriteIconColor,
+        imageVector = if (isFavorite) {
             Icons.Filled.Favorite
         } else {
             Icons.Default.FavoriteBorder
-        }, contentDescription = stringResource(R.string.favorite_icon)
+        },
+        contentDescription = stringResource(R.string.favorite_icon)
     )
 }
 
