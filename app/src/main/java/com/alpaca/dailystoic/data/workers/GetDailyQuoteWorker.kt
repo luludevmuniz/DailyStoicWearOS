@@ -2,7 +2,6 @@ package com.alpaca.dailystoic.data.workers
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -21,21 +20,17 @@ class GetDailyQuoteWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, workerParams) {
     override suspend fun doWork(): Result {
         val result: Result = try {
-            Log.d("BRITNEY", "início")
             val randomQuote = useCases.getRandomQuoteUseCase()
             if (randomQuote.quote.isNotEmpty() && randomQuote.author.isNotEmpty()) {
                 useCases.saveDailyQuoteUseCase(quote = randomQuote)
                 val intent = Intent(ACTION_QUOTE_UPDATED)
                 applicationContext.sendBroadcast(intent)
                 NotificationHelper(context = appContext).sendPushNotification(dailyQuote = randomQuote)
-                Log.d("BRITNEY", "sucesso")
                 Result.success()
             } else {
-                Log.d("BRITNEY", "retry")
                 Result.retry()
             }
         } catch (e: Exception) {
-            Log.d("BRITNEY", "error: $e")
             Result.failure()
         }
         return result

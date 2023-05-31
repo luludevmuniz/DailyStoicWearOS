@@ -8,7 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.wear.compose.foundation.lazy.AutoCenteringParams
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListAnchorType
-import androidx.wear.compose.foundation.lazy.ScalingLazyListState
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import com.alpaca.dailystoic.R
 import com.alpaca.dailystoic.domain.model.Quote
 import com.alpaca.dailystoic.presentation.common.PlaceholderScreen
@@ -18,10 +18,14 @@ import com.alpaca.dailystoic.util.RequestState
 
 @Composable
 fun HomeContent(
-    scalingLazyListState: ScalingLazyListState,
     quote: RequestState<Quote>,
     onClickQuote: (Quote) -> Unit
 ) {
+    val scalingLazyListState =
+        rememberScalingLazyListState(
+            initialCenterItemIndex = 0,
+            initialCenterItemScrollOffset = 90
+        )
     ScalingLazyColumn(
         state = scalingLazyListState,
         autoCentering = AutoCenteringParams(0, 90),

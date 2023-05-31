@@ -1,6 +1,5 @@
 package com.alpaca.dailystoic.presentation.components
 
-import android.util.Log
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -43,7 +42,6 @@ fun QuoteCard(
     TitleCard(
         onClick = {
             onClick(quote)
-            Log.d("longpress", "click")
         },
         title = {
             Text(

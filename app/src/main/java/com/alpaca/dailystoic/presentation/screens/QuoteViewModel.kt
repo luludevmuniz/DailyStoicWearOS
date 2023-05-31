@@ -1,4 +1,4 @@
-package com.alpaca.dailystoic.presentation.screens.home
+package com.alpaca.dailystoic.presentation.screens
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -23,8 +22,9 @@ import javax.inject.Inject
 
 @SuppressLint("UnspecifiedRegisterReceiverFlag")
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val useCases: UseCases, private val application: Application
+class QuoteViewModel @Inject constructor(
+    private val useCases: UseCases,
+    private val application: Application
 ) : ViewModel() {
 
     private val _dailyQuote = MutableStateFlow<RequestState<Quote>>(value = RequestState.Loading)
@@ -32,8 +32,6 @@ class HomeViewModel @Inject constructor(
 
     private val _favoriteQuotes = MutableStateFlow<PagingData<Quote>>(value = PagingData.empty())
     val favoriteQuotes: StateFlow<PagingData<Quote>> = _favoriteQuotes
-
-//    val favoriteQuotes = useCases.getFavoriteQuotesUseCase()
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -52,7 +50,6 @@ class HomeViewModel @Inject constructor(
     private fun fetchDailyQuote() {
         viewModelScope.launch {
             try {
-                Log.d("ninja", "fetchDailyQuote")
                 useCases.getDailyQuoteUseCase().collect { dailyQuote ->
                     dailyQuote?.let { _dailyQuote.value = RequestState.Success(it) }
                 }

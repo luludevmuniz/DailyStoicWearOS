@@ -13,7 +13,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.wear.compose.foundation.lazy.AutoCenteringParams
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListAnchorType
-import androidx.wear.compose.foundation.lazy.ScalingLazyListState
+import androidx.wear.compose.foundation.lazy.rememberScalingLazyListState
 import androidx.wear.compose.material.CircularProgressIndicator
 import com.alpaca.dailystoic.R
 import com.alpaca.dailystoic.domain.model.Quote
@@ -26,11 +26,16 @@ import com.google.android.horologist.compose.paging.items
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun FavoritesContent(
-    scalingLazyListState: ScalingLazyListState,
     quotes: LazyPagingItems<Quote>,
     onFavoriteCardClicked: (Quote) -> Unit = {}
 ) {
     val result = handlePagingResult(quotes = quotes)
+    val scalingLazyListState =
+        rememberScalingLazyListState(
+            initialCenterItemIndex = 0,
+            initialCenterItemScrollOffset = 90
+        )
+
     if (result) {
         ScalingLazyColumn(
             state = scalingLazyListState,
