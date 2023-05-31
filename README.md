@@ -1,7 +1,9 @@
 # DailyStoicWearOS
 
-Application made for WearOS using Jetpack Compose, Navigation for WearOS, Dagger Hilt, Retrofit2 and a MVVM architecture.
+A application that shows one stoic quote per day.
 
-The application shows a random stoic quote everyday.
+The user gets notified everyday when a new stoic quote is available, and can favorite and store the quote in the favorites list.
 
-The user can favorite the quote and see the list of favorite quotes.
+Application made for WearOS using Jetpack Compose, WorkManager, Room, Paging 3, Retrofit2, Dagger Hilt, Horologist and SplashScreen.
+
+Architecture used: MVVM.
