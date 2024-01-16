@@ -7,9 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.alpaca.dailystoic.presentation.screens.QuoteViewModel
 
 @Composable
-fun HomeScreen(
-    quoteViewModel: QuoteViewModel = hiltViewModel()
-) {
+fun HomeScreen(quoteViewModel: QuoteViewModel = hiltViewModel()) {
     val dailyQuote by quoteViewModel.dailyQuote.collectAsState()
     HomeContent(
         quote = dailyQuote,

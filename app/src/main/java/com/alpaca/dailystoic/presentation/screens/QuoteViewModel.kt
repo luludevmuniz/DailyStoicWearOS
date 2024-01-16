@@ -51,7 +51,9 @@ class QuoteViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 useCases.getDailyQuoteUseCase().collect { dailyQuote ->
-                    dailyQuote?.let { _dailyQuote.value = RequestState.Success(it) }
+                    dailyQuote?.let {
+                        _dailyQuote.value = RequestState.Success(it)
+                    }
                 }
             } catch (e: Exception) {
                 _dailyQuote.value = (RequestState.Error(e))

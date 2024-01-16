@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dialy Stoic</string>
+    <string name="app_name">Daily Stoic</string>
     <string name="loading">Loading…</string>
     <string name="wait">Wait</string>
     <string name="channel_name">Quotes</string>
@@ -11,6 +11,6 @@
     <string name="error_screen_title">Embracing Adversity</string>
     <string name="delete_quote_icon">Delete Quote Icon</string>
     <string name="close_delete_dialog_icon">close_delete_dialog_icon</string>
-    <string name="unfavorite_quote_dialog_title">Delete Quote</string>
-    <string name="unfavorite_quote_dialog_content">Do you wish to delete this quote?</string>
+    <string name="delete_quote_dialog_title">Delete Quote</string>
+    <string name="delete_quote_dialog_content">Do you wish to delete this quote?</string>
 </resources>

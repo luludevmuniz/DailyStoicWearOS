@@ -15,49 +15,28 @@ import androidx.compose.ui.Modifier
 import androidx.wear.compose.material.HorizontalPageIndicator
 import androidx.wear.compose.material.PageIndicatorState
 import androidx.wear.compose.material.Scaffold
-import androidx.wear.compose.material.SwipeToDismissBox
-import androidx.wear.compose.material.SwipeToDismissBoxState
 import androidx.wear.compose.material.Vignette
 import androidx.wear.compose.material.VignettePosition
-import androidx.wear.compose.material.edgeSwipeToDismiss
-import androidx.wear.compose.material.rememberSwipeToDismissBoxState
 import com.alpaca.dailystoic.presentation.screens.favorites.FavoritesScreen
 import com.alpaca.dailystoic.presentation.screens.home.HomeScreen
-import com.alpaca.dailystoic.ui.theme.DialyStoicTheme
 import com.alpaca.dailystoic.util.Constants
 
 @Composable
-fun HorizontalPagerScreen(onDismissed: () -> Unit = {}) {
-    DialyStoicTheme {
-
-        Scaffold(
-            modifier = Modifier.fillMaxSize(),
-            vignette = {
-                Vignette(vignettePosition = VignettePosition.Top)
-            })
-        {
-            val swipeToDismissBoxState = rememberSwipeToDismissBoxState()
-            SwipeToDismissBox(
-                state = swipeToDismissBoxState,
-                onDismissed = onDismissed
-            ) { isBackground ->
-                if (isBackground) {
-                    Box(modifier = Modifier.fillMaxSize())
-                } else {
-                    HorizonalPagerContent(
-                        swipeToDismissBoxState = swipeToDismissBoxState
-                    )
-                }
-            }
+fun HorizontalPagerScreen() {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        vignette = {
+            Vignette(vignettePosition = VignettePosition.Top)
         }
+    )
+    {
+        HorizontalPagerContent()
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HorizonalPagerContent(
-    swipeToDismissBoxState: SwipeToDismissBoxState
-) {
+private fun HorizontalPagerContent() {
     var selectedPage by remember { mutableIntStateOf(0) }
     val pagerState = rememberPagerState { Constants.MAX_PAGES }
     val pageIndicatorState: PageIndicatorState = remember {
@@ -72,9 +51,7 @@ fun HorizonalPagerContent(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .edgeSwipeToDismiss(swipeToDismissBoxState),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         HorizontalPager(state = pagerState) { page ->

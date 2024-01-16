@@ -10,10 +10,10 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.alpaca.dailystoic.data.workers.GetDailyQuoteWorker
+import com.alpaca.dailystoic.util.Constants.UNIQUE_WORK_NAME
 import dagger.hilt.android.HiltAndroidApp
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-
 
 @HiltAndroidApp
 class MyApplication : Application(), Configuration.Provider {
@@ -46,7 +46,7 @@ class MyApplication : Application(), Configuration.Provider {
             .build()
 
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
-            "DialyStoicQuoteWorker",
+            UNIQUE_WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             periodicRequest
         )

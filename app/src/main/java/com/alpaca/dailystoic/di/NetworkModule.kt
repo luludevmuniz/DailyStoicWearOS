@@ -40,7 +40,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         val contentType = "application/json".toMediaType()
         return Retrofit.Builder()
-            .baseUrl("https://api.themotivate365.com")
+            .baseUrl("https://stoic.tekloon.net/")
             .client(okHttpClient)
             .addConverterFactory(Json.asConverterFactory(contentType))
             .build()

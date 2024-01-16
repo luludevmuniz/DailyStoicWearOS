@@ -10,7 +10,7 @@
     <!-- Splash Screen Theme-->
     <style name="SplashTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/colorOnPrimary</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/alpaca_splash</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 </resources>

@@ -34,29 +34,33 @@ fun FavoritesScreen(
     var selectedQuote by remember { mutableStateOf(Quote()) }
     val scrollState = rememberScalingLazyListState()
 
-    FavoritesContent(quotes = quotes,
+    FavoritesContent(
+        quotes = quotes,
         onFavoriteCardClicked = { quote ->
             selectedQuote = quote
             showDialog = true
-        })
+        }
+    )
 
     Dialog(
         showDialog = showDialog,
         onDismissRequest = { showDialog = false },
         scrollState = scrollState
     ) {
-        Alert(title = { Text(text = stringResource(R.string.unfavorite_quote_dialog_title)) },
+        Alert(title = { Text(text = stringResource(R.string.delete_quote_dialog_title)) },
             content = {
                 Text(
-                    text = stringResource(R.string.unfavorite_quote_dialog_content),
+                    text = stringResource(R.string.delete_quote_dialog_content),
                     textAlign = TextAlign.Center
                 )
             },
             positiveButton = {
-                Button(onClick = {
-                    showDialog = false
-                    quoteViewModel.updateFavoriteStatus(quote = selectedQuote)
-                }) {
+                Button(
+                    onClick = {
+                        showDialog = false
+                        quoteViewModel.updateFavoriteStatus(quote = selectedQuote)
+                    }
+                ) {
                     Icon(
                         imageVector = Icons.Default.Done,
                         contentDescription = stringResource(R.string.delete_quote_icon)
@@ -75,6 +79,7 @@ fun FavoritesScreen(
                         contentDescription = stringResource(R.string.close_delete_dialog_icon)
                     )
                 }
-            })
+            }
+        )
     }
 }

@@ -21,7 +21,7 @@ class QuoteCardKtTest
     @Test
     fun loadingStateShowsLoadingCard() {
         composeTestRule.setContent {
-            QuoteCard(quote = Quote())
+            QuoteCard(quote = Quote(quote = "Loading…"))
         }
         composeTestRule.onNodeWithTag(QUOTE_CARD_CIRCULAR_PROGRESS_INDICATOR).assertIsDisplayed()
         composeTestRule.onNodeWithTag(FAVORITE_ICON).assertDoesNotExist()
