@@ -1,4 +1,4 @@
-# DailyStoicWearOS
+ # DailyStoicWearOS
 
 This application uses this public API: https://github.com/tlcheah2/stoic-quote-lambda-public-api
 
